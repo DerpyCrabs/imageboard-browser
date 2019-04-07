@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { parsePage, getPageCount } from '../crawler'
 import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
-import { useRoutes } from 'hookrouter'
+import { useRoutes, navigate } from 'hookrouter'
 
 const usePage = () => {
   const parsePage = pathname => {
@@ -51,20 +51,47 @@ const Gallery = ({ query }) => {
     return () => setIsMounted(false)
   }, [url])
 
+  const [search, setSearch] = useState(decodeURI(query))
   return (
-    <div className="section">
-      {pageCount ? (
-        <>
-          {match ? (
-            match(query) || <div>Page not found</div>
-          ) : (
-            <GalleryPage query={query} page={'1'} />
-          )}
-          <Pagination current={page} total={pageCount} />
-        </>
-      ) : (
-        <div>Loading...</div>
-      )}
+    <div>
+      <div className="field has-addons">
+        <div className="control is-expanded">
+          <input
+            className="input"
+            type="text"
+            value={search}
+            placeholder="Find by tags"
+            onChange={e => setSearch(e.target.value)}
+            onKeyPress={e =>
+              e.key === 'Enter'
+                ? navigate(search !== '' ? '/' + search + '/' : '/')
+                : ''
+            }
+          />
+        </div>
+        <div className="control">
+          <div
+            className="button is-info"
+            onClick={() => navigate(search !== '' ? '/' + search + '/' : '/')}
+          >
+            Find
+          </div>
+        </div>
+      </div>
+      <div className="section">
+        {pageCount ? (
+          <>
+            {match ? (
+              match(query) || <div>Page not found</div>
+            ) : (
+              <GalleryPage query={query} page={'1'} />
+            )}
+            <Pagination current={page} total={pageCount} />
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
     </div>
   )
 }
