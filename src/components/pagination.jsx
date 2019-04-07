@@ -31,7 +31,9 @@ const Pagination = ({ current, total }) => {
           <span className="pagination-ellipsis">&hellip;</span>
         </li>
         <li>
-          <PageLink to={current}>{current.toString()}</PageLink>
+          <PageLink to={current}>
+            {current.toString()} of {total}
+          </PageLink>
         </li>
         <li>
           <span className="pagination-ellipsis">&hellip;</span>
