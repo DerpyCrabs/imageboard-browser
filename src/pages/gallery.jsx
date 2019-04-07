@@ -78,7 +78,7 @@ const Gallery = ({ query }) => {
           </div>
         </div>
       </div>
-      <div className="section">
+      <div>
         {pageCount ? (
           <>
             {match ? (
