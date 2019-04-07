@@ -3,7 +3,7 @@ import { parsePage, getThumbs } from '../crawler'
 import { Columns } from 'react-bulma-components/full'
 import Thumb from '../components/thumb'
 
-const GalleryPage = ({ query, page }) => {
+const GalleryPage = React.memo(({ query, page }) => {
   let url = null
   if (query !== '') {
     url = `https://rule34.paheal.net/post/list/${query}/${page}`
@@ -39,6 +39,6 @@ const GalleryPage = ({ query, page }) => {
       )}
     </div>
   )
-}
+})
 
 export default GalleryPage
