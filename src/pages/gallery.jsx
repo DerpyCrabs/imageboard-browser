@@ -3,6 +3,7 @@ import { parsePage, getPageCount } from '../crawler'
 import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { useRoutes, navigate } from 'hookrouter'
+import useHotkeys from '../use-hotkeys'
 
 const usePage = () => {
   const parsePage = pathname => {
@@ -34,12 +35,24 @@ const Gallery = ({ query }) => {
     url = `https://rule34.paheal.net/post/list/`
   }
 
+  const [pageCount, setPageCount] = useState(null)
   const page = usePage()
+
+  const nextPage = event => {
+    const next = page !== pageCount ? page + 1 : page
+    navigate(next.toString())
+  }
+  const prevPage = event => {
+    const prev = page !== 1 ? page - 1 : page
+    navigate(prev.toString())
+  }
+
+  useHotkeys('ArrowRight', nextPage)
+  useHotkeys('ArrowLeft', prevPage)
 
   const match = useRoutes(routes)
   const [isMounted, setIsMounted] = useState(true)
 
-  const [pageCount, setPageCount] = useState(null)
   useEffect(() => {
     const fetchPageCount = async () => {
       const page = await parsePage(url)
