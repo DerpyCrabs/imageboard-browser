@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Tile, Loader } from 'react-bulma-components/full'
+import React from 'react'
+import { Tile } from 'react-bulma-components/full'
 
 const Img = ({ src, ...props }) => {
   return (
