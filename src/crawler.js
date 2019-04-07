@@ -15,18 +15,21 @@ const contains = (doc, selector, text) => {
   })
 }
 
-export const get_page_count = page => {
-  const lastPageHref = contains(page, 'a', 'Last')[0].href
-  return parseInt(lastPageHref.split('/').pop(), 10)
+export const getPageCount = page => {
+  const lastPage = contains(page, 'a', 'Last')[0]
+  if (!lastPage) {
+    return null
+  }
+  return parseInt(lastPage.href.split('/').pop(), 10)
 }
 
-export const parse_page = async url => {
+export const parsePage = async url => {
   const page = await fetch(url)
   const domParser = new DOMParser()
   return domParser.parseFromString(await page.text(), 'text/html')
 }
 
-export const get_thumbs = page => {
+export const getThumbs = page => {
   const thumbs = Array.from(page.querySelectorAll('.thumb'))
   return thumbs.map(parse_thumb)
 }

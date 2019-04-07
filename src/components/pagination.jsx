@@ -1,39 +1,43 @@
 import React from 'react'
+import { A } from 'hookrouter'
 
-const Pagination = ({ current, total, navigateCallback }) => {
+const Pagination = ({ current, total }) => {
   const PageLink = ({ to, children }) => (
-    <div
-      className="pagination-link"
-      onClick={() => navigateCallback(to.toString())}
-    >
+    <A className="pagination-link" href={to.toString()}>
       {children}
-    </div>
+    </A>
   )
   return (
     <nav className="pagination is-centered">
-      <div className="pagination-previous">Previous page</div>
-      <div className="pagination-next">Next page</div>
+      <A
+        className="pagination-previous"
+        disabled={current === 1}
+        href={(current - 1).toString()}
+      >
+        Previous page
+      </A>
+      <A
+        className="pagination-next"
+        disabled={current === total}
+        href={(current + 1).toString()}
+      >
+        Next page
+      </A>
       <ul className="pagination-list">
         <li>
-          <PageLink to={1}>1</PageLink>
+          <PageLink to={1}>First</PageLink>
         </li>
         <li>
           <span className="pagination-ellipsis">&hellip;</span>
-        </li>
-        <li>
-          <PageLink to={current - 1}>{(current - 1).toString()}</PageLink>
         </li>
         <li>
           <PageLink to={current}>{current.toString()}</PageLink>
         </li>
         <li>
-          <PageLink to={current + 1}>{(current + 1).toString()}</PageLink>
-        </li>
-        <li>
           <span className="pagination-ellipsis">&hellip;</span>
         </li>
         <li>
-          <PageLink to={total}>{total.toString()}</PageLink>
+          <PageLink to={total}>Last</PageLink>
         </li>
       </ul>
     </nav>

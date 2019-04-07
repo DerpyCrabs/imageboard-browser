@@ -1,30 +1,56 @@
 import React, { useState, useEffect } from 'react'
-import { parse_page, get_page_count } from '../crawler'
+import { parsePage, getPageCount } from '../crawler'
 import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { useRoutes } from 'hookrouter'
 
-const routes = {
-  ':page': ({ page }) => query => <GalleryPage query={query} page={page} />,
-  '': () => query => <GalleryPage query="" page={'1'} />
+const usePage = () => {
+  const parsePage = pathname => {
+    const maybePage = pathname.split('/').pop()
+    if (!maybePage || isNaN(maybePage)) {
+      return 1
+    } else {
+      return parseInt(maybePage, 10)
+    }
+  }
+
+  const [page, setPage] = useState(parsePage(window.location.pathname))
+  useEffect(() => setPage(parsePage(window.location.pathname)), [
+    window.location.pathname
+  ])
+  return page
 }
+
+const routes = {
+  ':page/': ({ page }) => query => <GalleryPage query={query} page={page} />,
+  ':page': ({ page }) => query => <GalleryPage query={query} page={page} />
+}
+
 const Gallery = ({ query }) => {
   let url = null
   if (query !== '') {
-    url = `https://rule34.paheal.net/post/list/${query}`
+    url = `https://rule34.paheal.net/post/list/${query}/`
   } else {
-    url = `https://rule34.paheal.net/post/list`
+    url = `https://rule34.paheal.net/post/list/`
   }
 
+  const page = usePage()
+
   const match = useRoutes(routes)
+  const [isMounted, setIsMounted] = useState(true)
+
   const [pageCount, setPageCount] = useState(null)
   useEffect(() => {
     const fetchPageCount = async () => {
-      const page = await parse_page(url)
-      setPageCount(get_page_count(page))
+      const page = await parsePage(url)
+      if (isMounted) {
+        setPageCount(getPageCount(page))
+      }
     }
     fetchPageCount()
+    return () => setIsMounted(false)
   }, [url])
+
   return (
     <div className="section">
       {pageCount ? (
@@ -34,7 +60,7 @@ const Gallery = ({ query }) => {
           ) : (
             <GalleryPage query={query} page={'1'} />
           )}
-          <Pagination current={3} total={pageCount} />
+          <Pagination current={page} total={pageCount} />
         </>
       ) : (
         <div>Loading...</div>

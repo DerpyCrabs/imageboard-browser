@@ -5,7 +5,6 @@ import { useRoutes } from 'hookrouter'
 
 const routes = {
   '/:query/*': ({ query }) => <Gallery query={query} />,
-  '/:query': ({ query }) => <Gallery query={query} />,
   '/*': () => <Gallery query="" />,
   '/': () => <Gallery query="" />
 }
