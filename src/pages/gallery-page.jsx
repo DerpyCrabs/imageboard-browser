@@ -4,25 +4,18 @@ import { Columns } from 'react-bulma-components/full'
 import Thumb from '../components/thumb'
 
 const GalleryPage = React.memo(({ source, query, page }) => {
-  let url = null
-  if (query !== '') {
-    url = `https://rule34.paheal.net/post/list/${query}/${page}`
-  } else {
-    url = `https://rule34.paheal.net/post/list/${page}`
-  }
-
   const [thumbs, setThumbs] = useState([])
   const [isMounted, setIsMounted] = useState(true)
   useEffect(() => {
     const fetchThumbs = async () => {
-      const page = await parsePage(url)
+      const pageContents = await parsePage(query, page)
       if (isMounted) {
-        setThumbs(getThumbs(page))
+        setThumbs(getThumbs(pageContents))
       }
     }
     fetchThumbs()
     return () => setIsMounted(false)
-  }, [url])
+  }, [query, page])
 
   return (
     <div className="section">

@@ -23,10 +23,20 @@ export const getPageCount = page => {
   return parseInt(lastPage.href.split('/').pop(), 10)
 }
 
-export const parsePage = async url => {
-  const page = await fetch(url)
+export const parsePage = async (query, page) => {
+  let url = null
+  if (query !== '') {
+    url = `https://rule34.paheal.net/post/list/${query}/`
+  } else {
+    url = `https://rule34.paheal.net/post/list/`
+  }
+  if (page) {
+    url = url + page.toString()
+  }
+
+  const pageContents = await fetch(url)
   const domParser = new DOMParser()
-  return domParser.parseFromString(await page.text(), 'text/html')
+  return domParser.parseFromString(await pageContents.text(), 'text/html')
 }
 
 export const getThumbs = page => {

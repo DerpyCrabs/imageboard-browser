@@ -32,13 +32,6 @@ const routes = {
 }
 
 const Gallery = ({ source, query }) => {
-  let url = null
-  if (query !== '') {
-    url = `https://rule34.paheal.net/post/list/${query}/`
-  } else {
-    url = `https://rule34.paheal.net/post/list/`
-  }
-
   const [pageCount, setPageCount] = useState(null)
   const page = usePage()
 
@@ -59,19 +52,19 @@ const Gallery = ({ source, query }) => {
 
   useEffect(() => {
     const fetchPageCount = async () => {
-      const page = await parsePage(url)
+      const pageContents = await parsePage(query)
       if (isMounted) {
-        setPageCount(getPageCount(page))
+        setPageCount(getPageCount(pageContents))
       }
     }
     fetchPageCount()
     return () => setIsMounted(false)
-  }, [url])
+  }, [query])
 
   const [search, setSearch] = useState(decodeURI(query))
 
   const handleSearch = () =>
-    navigate(search !== '' ? '/' + source + '/' + search + '/' : '/')
+    navigate(search !== '' ? `/${source}/${search}/` : `/${source}/`)
   return (
     <div>
       <div className="field has-addons">
