@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { parsePage, getPageCount } from '../crawler'
+import { parsePage, getPageCount } from '../sources/paheal'
 import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { useRoutes, navigate } from 'hookrouter'
@@ -23,11 +23,15 @@ const usePage = () => {
 }
 
 const routes = {
-  ':page/': ({ page }) => query => <GalleryPage query={query} page={page} />,
-  ':page': ({ page }) => query => <GalleryPage query={query} page={page} />
+  ':page/': ({ page }) => (source, query) => (
+    <GalleryPage source={source} query={query} page={page} />
+  ),
+  ':page': ({ page }) => (source, query) => (
+    <GalleryPage source={source} query={query} page={page} />
+  )
 }
 
-const Gallery = ({ query }) => {
+const Gallery = ({ source, query }) => {
   let url = null
   if (query !== '') {
     url = `https://rule34.paheal.net/post/list/${query}/`
@@ -65,6 +69,9 @@ const Gallery = ({ query }) => {
   }, [url])
 
   const [search, setSearch] = useState(decodeURI(query))
+
+  const handleSearch = () =>
+    navigate(search !== '' ? '/' + source + '/' + search + '/' : '/')
   return (
     <div>
       <div className="field has-addons">
@@ -75,18 +82,11 @@ const Gallery = ({ query }) => {
             value={search}
             placeholder="Find by tags"
             onChange={e => setSearch(e.target.value)}
-            onKeyPress={e =>
-              e.key === 'Enter'
-                ? navigate(search !== '' ? '/' + search + '/' : '/')
-                : ''
-            }
+            onKeyPress={e => (e.key === 'Enter' ? handleSearch() : '')}
           />
         </div>
         <div className="control">
-          <div
-            className="button is-info"
-            onClick={() => navigate(search !== '' ? '/' + search + '/' : '/')}
-          >
+          <div className="button is-info" onClick={handleSearch}>
             Find
           </div>
         </div>
@@ -95,9 +95,9 @@ const Gallery = ({ query }) => {
         {pageCount ? (
           <>
             {match ? (
-              match(query) || <div>Page not found</div>
+              match(source, query) || <div>Page not found</div>
             ) : (
-              <GalleryPage query={query} page={'1'} />
+              <GalleryPage source={source} query={query} page={'1'} />
             )}
             <Pagination current={page} total={pageCount} />
           </>

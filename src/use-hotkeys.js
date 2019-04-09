@@ -13,7 +13,7 @@ const useHotkeys = (key, handler) => {
     return () => {
       window.removeEventListener('keydown', callback)
     }
-  }, [handler])
+  }, [key, handler])
 }
 
 export default useHotkeys

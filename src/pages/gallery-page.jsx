@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { parsePage, getThumbs } from '../crawler'
+import { parsePage, getThumbs } from '../sources/paheal'
 import { Columns } from 'react-bulma-components/full'
 import Thumb from '../components/thumb'
 
-const GalleryPage = React.memo(({ query, page }) => {
+const GalleryPage = React.memo(({ source, query, page }) => {
   let url = null
   if (query !== '') {
     url = `https://rule34.paheal.net/post/list/${query}/${page}`

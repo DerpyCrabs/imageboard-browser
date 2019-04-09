@@ -4,9 +4,13 @@ import Gallery from './pages/gallery'
 import { useRoutes } from 'hookrouter'
 
 const routes = {
-  '/:query/*': ({ query }) => <Gallery query={query} />,
-  '/*': () => <Gallery query="" />,
-  '/': () => <Gallery query="" />
+  '/:source/:query/*': ({ source, query }) => (
+    <Gallery source={source} query={query} />
+  ),
+  '/:source/*': ({ source }) => <Gallery source={source} query="" />,
+  '/:source/': ({ source }) => <Gallery source={source} query="" />,
+  '/*': () => <Gallery source="paheal" query="" />,
+  '/': () => <Gallery source="paheal" query="" />
 }
 const Facelift = () => {
   const match = useRoutes(routes)

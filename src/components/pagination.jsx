@@ -1,7 +1,7 @@
 import React from 'react'
 import { A } from 'hookrouter'
 
-const Pagination = ({ current, total }) => {
+const Pagination = React.memo(({ current, total }) => {
   const PageLink = ({ to, children }) => (
     <A className="pagination-link" href={to.toString()}>
       {children}
@@ -44,6 +44,6 @@ const Pagination = ({ current, total }) => {
       </ul>
     </nav>
   )
-}
+})
 
 export default Pagination

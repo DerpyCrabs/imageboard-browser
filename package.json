@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "emotion": "^10.0.9",
     "hookrouter": "^1.0.3-beta",
     "react": "^16.8.5",
     "react-bulma-components": "^2.3.0",
