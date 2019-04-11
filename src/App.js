@@ -1,7 +1,7 @@
 import React from 'react'
-import 'react-bulma-components/full'
 import Gallery from './pages/gallery'
 import { useRoutes } from 'hookrouter'
+import { BulmaStyledTheme } from 'bulma-styled-components'
 
 const routes = {
   '/:source/:query/*': ({ source, query }) => (
@@ -15,8 +15,12 @@ const routes = {
 const Facelift = () => {
   const match = useRoutes(routes)
 
-  return <div className="section">{match || <div>Page not found</div>}</div>
+  return match || <div>Page not found</div>
 }
-const App = () => <Facelift />
+const App = () => (
+  <BulmaStyledTheme>
+    <Facelift />
+  </BulmaStyledTheme>
+)
 
 export default App

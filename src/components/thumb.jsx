@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { Tile } from 'react-bulma-components/full'
 import ImageDetails from './image-details'
+import { Tile, Box } from 'bulma-styled-components'
 
 const Img = ({ src, ...props }) => {
   return (
-    <Tile
-      className="box"
-      kind="parent"
+    <Box
       style={{
         backgroundImage: 'url(' + src + ')',
         height: 200,
+        width: '100%',
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center'
@@ -28,7 +27,10 @@ const Thumb = ({ source, thumb }) => {
   }
   return (
     <>
-      <Tile kind="parent" size={2} onClick={() => setShowImageDetails(true)}>
+      <Tile
+        className="is-parent is-2"
+        onClick={() => setShowImageDetails(true)}
+      >
         <Img src={thumb.thumbUrl} />
       </Tile>
       {showImageDetails && (
@@ -36,6 +38,7 @@ const Thumb = ({ source, thumb }) => {
           post={thumb.postUrl}
           onClose={handleClose}
           source={source}
+          show={true}
         />
       )}
     </>

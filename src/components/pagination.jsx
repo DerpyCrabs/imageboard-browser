@@ -1,34 +1,39 @@
 import React from 'react'
-import { A } from 'hookrouter'
+import { navigate } from 'hookrouter'
+import { Pagination } from 'bulma-styled-components'
 
-const Pagination = React.memo(({ current, total }) => {
+const PaginationExp = React.memo(({ current, total }) => {
+  const linkOnClick = e => {
+    e.preventDefault()
+    navigate(e.currentTarget.href)
+  }
   const PageLink = ({ to, children }) => (
-    <A className="pagination-link" href={to.toString()}>
+    <Pagination.Link href={to.toString()} onClick={linkOnClick}>
       {children}
-    </A>
+    </Pagination.Link>
   )
   return (
-    <nav className="pagination is-centered">
-      <A
-        className="pagination-previous"
+    <Pagination className="is-centered">
+      <Pagination.Previous
         disabled={current === 1}
         href={(current - 1).toString()}
+        onClick={linkOnClick}
       >
         Previous page
-      </A>
-      <A
-        className="pagination-next"
+      </Pagination.Previous>
+      <Pagination.Next
         disabled={current === total}
         href={(current + 1).toString()}
+        onClick={linkOnClick}
       >
         Next page
-      </A>
-      <ul className="pagination-list">
+      </Pagination.Next>
+      <Pagination.List>
         <li>
           <PageLink to={1}>First</PageLink>
         </li>
         <li>
-          <span className="pagination-ellipsis">&hellip;</span>
+          <Pagination.Ellipsis>&hellip;</Pagination.Ellipsis>
         </li>
         <li>
           <PageLink to={current}>
@@ -36,14 +41,14 @@ const Pagination = React.memo(({ current, total }) => {
           </PageLink>
         </li>
         <li>
-          <span className="pagination-ellipsis">&hellip;</span>
+          <Pagination.Ellipsis>&hellip;</Pagination.Ellipsis>
         </li>
         <li>
           <PageLink to={total}>Last</PageLink>
         </li>
-      </ul>
-    </nav>
+      </Pagination.List>
+    </Pagination>
   )
 })
 
-export default Pagination
+export default PaginationExp

@@ -4,6 +4,14 @@ import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { useRoutes, navigate } from 'hookrouter'
 import useHotkeys from '../use-hotkeys'
+import {
+  Field,
+  Control,
+  Input,
+  Section,
+  Select,
+  Button
+} from 'bulma-styled-components'
 
 const usePage = () => {
   const parsePage = pathname => {
@@ -67,32 +75,31 @@ const Gallery = ({ source, query }) => {
   const handleSearch = source =>
     navigate(search !== '' ? `/${source}/${search}/` : `/${source}/`)
   return (
-    <div>
-      <div className="field has-addons">
-        <div className="control is-expanded">
-          <input
-            className="input"
+    <Section>
+      <Field className="field has-addons">
+        <Control className="control is-expanded">
+          <Input
             type="text"
             value={search}
             placeholder="Find by tags"
             onChange={e => setSearch(e.target.value)}
             onKeyPress={e => (e.key === 'Enter' ? handleSearch(source) : '')}
           />
-        </div>
-        <div className="control">
-          <div className="select">
+        </Control>
+        <Control>
+          <Select>
             <select value={source} onChange={e => handleSearch(e.target.value)}>
               <option value="safebooru">Safebooru</option>
               <option value="paheal">Paheal</option>
             </select>
-          </div>
-        </div>
-        <div className="control">
-          <div className="button is-info" onClick={() => handleSearch(source)}>
+          </Select>
+        </Control>
+        <Control>
+          <Button className="is-info" onClick={() => handleSearch(source)}>
             Find
-          </div>
-        </div>
-      </div>
+          </Button>
+        </Control>
+      </Field>
       <div>
         {pageCount ? (
           <>
@@ -107,7 +114,7 @@ const Gallery = ({ source, query }) => {
           <div>Loading...</div>
         )}
       </div>
-    </div>
+    </Section>
   )
 }
 

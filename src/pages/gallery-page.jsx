@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Columns } from 'react-bulma-components/full'
 import Thumb from '../components/thumb'
+import { Section, Columns } from 'bulma-styled-components'
 
 const GalleryPage = React.memo(({ source, query, page }) => {
   const [thumbs, setThumbs] = useState([])
@@ -17,10 +17,10 @@ const GalleryPage = React.memo(({ source, query, page }) => {
   }, [query, page])
 
   return (
-    <div className="section">
+    <Section>
       {thumbs.length !== 0 ? (
         <>
-          <Columns>
+          <Columns className="is-multiline">
             {thumbs.map(thumb => (
               <Thumb key={thumb.postUrl} source={source} thumb={thumb} />
             ))}
@@ -29,7 +29,7 @@ const GalleryPage = React.memo(({ source, query, page }) => {
       ) : (
         <div>Loading...</div>
       )}
-    </div>
+    </Section>
   )
 })
 
