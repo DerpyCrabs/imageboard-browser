@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { parsePage, getPageCount } from '../sources/paheal'
+import { getSource } from '../sources/util'
 import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { useRoutes, navigate } from 'hookrouter'
@@ -32,6 +32,7 @@ const routes = {
 }
 
 const Gallery = ({ source, query }) => {
+  const sourceModule = getSource(source)
   const [pageCount, setPageCount] = useState(null)
   const page = usePage()
 
@@ -52,9 +53,9 @@ const Gallery = ({ source, query }) => {
 
   useEffect(() => {
     const fetchPageCount = async () => {
-      const pageContents = await parsePage(query)
+      const pageContents = await sourceModule.parsePage(query)
       if (isMounted) {
-        setPageCount(getPageCount(pageContents))
+        setPageCount(sourceModule.getPageCount(pageContents))
       }
     }
     fetchPageCount()
@@ -88,9 +89,9 @@ const Gallery = ({ source, query }) => {
         {pageCount ? (
           <>
             {match ? (
-              match(source, query) || <div>Page not found</div>
+              match(sourceModule, query) || <div>Page not found</div>
             ) : (
-              <GalleryPage source={source} query={query} page={'1'} />
+              <GalleryPage source={sourceModule} query={query} page={'1'} />
             )}
             <Pagination current={page} total={pageCount} />
           </>

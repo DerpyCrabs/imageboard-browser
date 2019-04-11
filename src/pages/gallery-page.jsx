@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { parsePage, getThumbs } from '../sources/paheal'
 import { Columns } from 'react-bulma-components/full'
 import Thumb from '../components/thumb'
 
@@ -8,9 +7,9 @@ const GalleryPage = React.memo(({ source, query, page }) => {
   const [isMounted, setIsMounted] = useState(true)
   useEffect(() => {
     const fetchThumbs = async () => {
-      const pageContents = await parsePage(query, page)
+      const pageContents = await source.parsePage(query, page)
       if (isMounted) {
-        setThumbs(getThumbs(pageContents))
+        setThumbs(source.getThumbs(pageContents))
       }
     }
     fetchThumbs()
@@ -23,7 +22,7 @@ const GalleryPage = React.memo(({ source, query, page }) => {
         <>
           <Columns>
             {thumbs.map(thumb => (
-              <Thumb key={thumb.postUrl} thumb={thumb} />
+              <Thumb key={thumb.postUrl} source={source} thumb={thumb} />
             ))}
           </Columns>
         </>

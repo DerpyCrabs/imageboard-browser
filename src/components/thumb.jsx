@@ -18,7 +18,7 @@ const Img = ({ src, ...props }) => {
   )
 }
 
-const Thumb = ({ thumb }) => {
+const Thumb = ({ source, thumb }) => {
   const [showImageDetails, setShowImageDetails] = useState(false)
   const handleClose = e => {
     if (e) {
@@ -31,12 +31,13 @@ const Thumb = ({ thumb }) => {
       <Tile kind="parent" size={2} onClick={() => setShowImageDetails(true)}>
         <Img src={thumb.thumbUrl} />
       </Tile>
-      <ImageDetails
-        image={thumb.imageUrl}
-        post={thumb.postUrl}
-        onClose={handleClose}
-        show={showImageDetails}
-      />
+      {showImageDetails && (
+        <ImageDetails
+          post={thumb.postUrl}
+          onClose={handleClose}
+          source={source}
+        />
+      )}
     </>
   )
 }

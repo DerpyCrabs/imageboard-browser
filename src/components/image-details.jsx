@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal } from 'react-bulma-components/full'
 
-const ImageDetails = ({ image, post, onClose, show }) => {
+const ImageDetails = ({ source, image, post, onClose }) => {
+  const [imageUrl, setImageUrl] = useState('')
+  useEffect(() => {
+    const fetchThumbs = async () => {
+      const url = await source.getImageUrl(post)
+      setImageUrl(url)
+    }
+    fetchThumbs()
+  }, [post])
   return (
-    <Modal show={show} onClose={onClose} showClose={false} closeOnBlur>
+    <Modal show onClose={onClose} showClose={false} closeOnBlur>
       <Modal.Card style={{ height: '100%', borderRadius: '5px' }}>
         <Modal.Card.Head showClose={false} style={{ padding: '6px' }}>
           <div className="level" style={{ flexGrow: 1 }}>
@@ -29,7 +37,7 @@ const ImageDetails = ({ image, post, onClose, show }) => {
           }}
         >
           <img
-            src={image}
+            src={imageUrl}
             alt="Fullsize"
             style={{
               maxWidth: '100%',

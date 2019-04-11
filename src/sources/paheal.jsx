@@ -1,11 +1,10 @@
-const parse_thumb = thumb => {
+const parseThumb = thumb => {
   const tags = thumb.dataset.tags
   const postUrl =
     'https://rule34.paheal.net' +
     thumb.querySelector('.shm-thumb-link').getAttribute('href')
-  const imageUrl = thumb.querySelector('a:not(.shm-thumb-link)').href
   const thumbUrl = thumb.querySelector('.shm-thumb-link img').src
-  return { tags, postUrl, thumbUrl, imageUrl }
+  return { tags, postUrl, thumbUrl }
 }
 
 const contains = (doc, selector, text) => {
@@ -13,6 +12,14 @@ const contains = (doc, selector, text) => {
   return Array.prototype.filter.call(elements, function(element) {
     return RegExp(text).test(element.textContent)
   })
+}
+
+const getImageUrl = async postUrl => {
+  console.log(postUrl)
+  const pageContents = await fetch(postUrl)
+  const domParser = new DOMParser()
+  const page = domParser.parseFromString(await pageContents.text(), 'text/html')
+  return contains(page, 'a', 'Image Only')[0].getAttribute('href')
 }
 
 export const getPageCount = page => {
@@ -41,5 +48,7 @@ export const parsePage = async (query, page) => {
 
 export const getThumbs = page => {
   const thumbs = Array.from(page.querySelectorAll('.thumb'))
-  return thumbs.map(parse_thumb)
+  return thumbs.map(parseThumb)
 }
+
+export default { parsePage, getThumbs, getPageCount, getImageUrl }
