@@ -64,7 +64,7 @@ const Gallery = ({ source, query }) => {
 
   const [search, setSearch] = useState(decodeURI(query))
 
-  const handleSearch = () =>
+  const handleSearch = source =>
     navigate(search !== '' ? `/${source}/${search}/` : `/${source}/`)
   return (
     <div>
@@ -76,11 +76,19 @@ const Gallery = ({ source, query }) => {
             value={search}
             placeholder="Find by tags"
             onChange={e => setSearch(e.target.value)}
-            onKeyPress={e => (e.key === 'Enter' ? handleSearch() : '')}
+            onKeyPress={e => (e.key === 'Enter' ? handleSearch(source) : '')}
           />
         </div>
         <div className="control">
-          <div className="button is-info" onClick={handleSearch}>
+          <div className="select">
+            <select value={source} onChange={e => handleSearch(e.target.value)}>
+              <option value="safebooru">Safebooru</option>
+              <option value="paheal">Paheal</option>
+            </select>
+          </div>
+        </div>
+        <div className="control">
+          <div className="button is-info" onClick={() => handleSearch(source)}>
             Find
           </div>
         </div>

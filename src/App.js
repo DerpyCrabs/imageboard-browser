@@ -9,8 +9,8 @@ const routes = {
   ),
   '/:source/*': ({ source }) => <Gallery source={source} query="" />,
   '/:source/': ({ source }) => <Gallery source={source} query="" />,
-  '/*': () => <Gallery source="paheal" query="" />,
-  '/': () => <Gallery source="paheal" query="" />
+  '/*': () => <Gallery source="safebooru" query="" />,
+  '/': () => <Gallery source="safebooru" query="" />
 }
 const Facelift = () => {
   const match = useRoutes(routes)
