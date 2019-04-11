@@ -95,6 +95,7 @@ const Gallery = ({ source, query }) => {
             <select value={source} onChange={e => handleSearch(e.target.value)}>
               <option value="safebooru">Safebooru</option>
               <option value="paheal">Paheal</option>
+              <option value="rule34">Rule34</option>
             </select>
           </Select>
         </Control>
