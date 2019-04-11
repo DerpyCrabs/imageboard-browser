@@ -70,10 +70,14 @@ const Gallery = ({ source, query }) => {
     return () => setIsMounted(false)
   }, [query])
 
-  const [search, setSearch] = useState(decodeURI(query))
+  const [search, setSearch] = useState(decodeURIComponent(query))
 
   const handleSearch = source =>
-    navigate(search !== '' ? `/${source}/${search}/` : `/${source}/`)
+    navigate(
+      search !== ''
+        ? `/${source}/${encodeURIComponent(search)}/`
+        : `/${source}/`
+    )
   return (
     <Section>
       <Field className="field has-addons">
