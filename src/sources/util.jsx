@@ -18,3 +18,10 @@ export const getSource = source => {
     return undefined
   }
 }
+
+export const contains = (doc, selector, text) => {
+  var elements = doc.querySelectorAll(selector)
+  return Array.prototype.filter.call(elements, function(element) {
+    return RegExp(text).test(element.textContent)
+  })
+}

@@ -1,3 +1,5 @@
+import { contains } from './util'
+
 const parseThumb = thumb => {
   const tags = thumb.dataset.tags
   const postUrl =
@@ -5,13 +7,6 @@ const parseThumb = thumb => {
     thumb.querySelector('.shm-thumb-link').getAttribute('href')
   const thumbUrl = thumb.querySelector('.shm-thumb-link img').src
   return { tags, postUrl, thumbUrl }
-}
-
-const contains = (doc, selector, text) => {
-  var elements = doc.querySelectorAll(selector)
-  return Array.prototype.filter.call(elements, function(element) {
-    return RegExp(text).test(element.textContent)
-  })
 }
 
 const getImageUrl = async postUrl => {

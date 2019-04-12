@@ -20,13 +20,6 @@ const getImageUrl = async postUrl => {
   }
 }
 
-const contains = (doc, selector, text) => {
-  var elements = doc.querySelectorAll(selector)
-  return Array.prototype.filter.call(elements, function(element) {
-    return RegExp(text).test(element.textContent)
-  })
-}
-
 export const getPageCount = page => {
   const lastPage = page.querySelector('.pagination > :nth-last-child(2)')
     .textContent

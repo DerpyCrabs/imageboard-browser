@@ -1,3 +1,5 @@
+import { contains } from './util'
+
 const parseThumb = thumb => {
   const thumbUrl = thumb.querySelector('img').src
   const tags = thumb.querySelector('img').alt
@@ -11,13 +13,6 @@ const getImageUrl = async postUrl => {
   const domParser = new DOMParser()
   const page = domParser.parseFromString(await pageContents.text(), 'text/html')
   return 'http:' + contains(page, 'a', 'Original image')[0].getAttribute('href')
-}
-
-const contains = (doc, selector, text) => {
-  var elements = doc.querySelectorAll(selector)
-  return Array.prototype.filter.call(elements, function(element) {
-    return RegExp(text).test(element.textContent)
-  })
 }
 
 export const getPageCount = page => {
