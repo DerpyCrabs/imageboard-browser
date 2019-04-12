@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal } from 'bulma-styled-components'
+import { Modal, Level, Heading } from 'bulma-styled-components'
 
 const ImageDetails = ({ source, show, image, post, onClose }) => {
   const [imageUrl, setImageUrl] = useState('')
@@ -23,20 +23,16 @@ const ImageDetails = ({ source, show, image, post, onClose }) => {
         }}
       >
         <Modal.Card.Head showClose={false} style={{ padding: '6px' }}>
-          <div className="level" style={{ flexGrow: 1 }}>
-            <div className="level-left">
-              <div className="level-item" />
-            </div>
-            <div className="level-item has-text-centered">
+          <Level style={{ flexGrow: 1 }}>
+            <Level.Item className="has-text-centered" style={{ flexGrow: 1 }}>
               <div>
-                <p className="title is-5">{post}</p>
-                <p className="heading">from rule34.paheal.net</p>
+                <a href={post} target="_blank" rel="noopener noreferrer">
+                  {post}
+                </a>
+                <Heading>from rule34.paheal.net</Heading>
               </div>
-            </div>
-            <div className="level-right">
-              <div className="level-item" />
-            </div>
-          </div>
+            </Level.Item>
+          </Level>
         </Modal.Card.Head>
         <Modal.Card.Body
           style={{
