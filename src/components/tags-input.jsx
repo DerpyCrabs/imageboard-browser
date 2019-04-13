@@ -35,9 +35,9 @@ const TagsInput = ({ tags, setTags, onEnter }) => {
       {completeTags.map((tag, index) => (
         <div className="control" key={tag}>
           <div className="tags has-addons">
-            <div className="tag has-background-grey-lighter">{tag}</div>
+            <div className="tag">{tag}</div>
             <div
-              className="tag is-delete has-background-grey-lighter"
+              className="tag is-delete"
               onClick={() => handleRemoveTag(tag)}
             />
           </div>

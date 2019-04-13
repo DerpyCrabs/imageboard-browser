@@ -93,7 +93,7 @@ const ImageDetails = ({ source, show, post, onClose, tags }) => {
               {tags.map(tag => (
                 <div
                   key={tag}
-                  className="tag is-info"
+                  className="tag is-primary"
                   style={{ cursor: 'pointer' }}
                   onClick={() => handleTagClick(tag)}
                 >

@@ -94,7 +94,7 @@ const Gallery = ({ source, query }) => {
         </div>
         <div className="control">
           <button
-            className="button is-info"
+            className="button is-primary"
             onClick={() => handleSearch(source)}
           >
             Find
