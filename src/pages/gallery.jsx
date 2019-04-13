@@ -7,11 +7,11 @@ import useHotkeys from '../use-hotkeys'
 import {
   Field,
   Control,
-  Input,
   Section,
   Select,
   Button
 } from 'bulma-styled-components'
+import TagsInput from '../components/tags-input'
 
 const usePage = () => {
   const parsePage = pathname => {
@@ -70,24 +70,22 @@ const Gallery = ({ source, query }) => {
     return () => setIsMounted(false)
   }, [query])
 
-  const [search, setSearch] = useState(decodeURIComponent(query))
+  const [search, setSearch] = useState(decodeURIComponent(query) + ' ')
 
   const handleSearch = source =>
     navigate(
       search !== ''
-        ? `/${source}/${encodeURIComponent(search)}/`
+        ? `/${source}/${encodeURIComponent(search.trim())}/`
         : `/${source}/`
     )
   return (
     <Section>
       <Field className="field has-addons">
         <Control className="control is-expanded">
-          <Input
-            type="text"
-            value={search}
-            placeholder="Find by tags"
-            onChange={e => setSearch(e.target.value)}
-            onKeyPress={e => (e.key === 'Enter' ? handleSearch(source) : '')}
+          <TagsInput
+            tags={search}
+            setTags={e => setSearch(e)}
+            onEnter={e => handleSearch(source)}
           />
         </Control>
         <Control>
