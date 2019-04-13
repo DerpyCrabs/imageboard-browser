@@ -109,9 +109,9 @@ const Gallery = ({ source, query }) => {
         {pageCount ? (
           <>
             {match ? (
-              match(sourceModule, query) || <div>Page not found</div>
+              match(source, query) || <div>Page not found</div>
             ) : (
-              <GalleryPage source={sourceModule} query={query} page={'1'} />
+              <GalleryPage source={source} query={query} page={'1'} />
             )}
             <Pagination current={page} total={pageCount} />
           </>

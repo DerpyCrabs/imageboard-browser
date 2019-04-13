@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Level, Heading } from 'bulma-styled-components'
+import { navigate } from 'hookrouter'
+import { getSource } from '../sources/util'
+import {
+  Modal,
+  Level,
+  Heading,
+  Button,
+  Tags,
+  Tag
+} from 'bulma-styled-components'
 
-const ImageDetails = ({ source, show, image, post, onClose }) => {
+const ImageDetails = ({ source, show, post, onClose, tags }) => {
   const [imageUrl, setImageUrl] = useState('')
+  const [showTags, setShowTags] = useState(false)
+  const handleTagClick = tag => {
+    navigate(`/${source}/${encodeURIComponent(tag)}/`)
+  }
+
   useEffect(() => {
     const fetchThumbs = async () => {
-      const url = await source.getImageUrl(post)
+      const url = await getSource(source).getImageUrl(post)
       setImageUrl(url)
     }
     fetchThumbs()
@@ -19,7 +33,8 @@ const ImageDetails = ({ source, show, image, post, onClose }) => {
           display: 'inline-flex',
           marginRight: '20px',
           marginLeft: '20px',
-          borderRadius: '5px'
+          borderRadius: '5px',
+          height: '100%'
         }}
       >
         <Modal.Card.Head showClose={false} style={{ padding: '6px' }}>
@@ -62,6 +77,28 @@ const ImageDetails = ({ source, show, image, post, onClose }) => {
             />
           </div>
         </Modal.Card.Body>
+        <Modal.Card.Foot style={{ padding: 0, flexDirection: 'column' }}>
+          <Button
+            className="is-fullwidth is-small"
+            onClick={() => setShowTags(!showTags)}
+          >
+            {showTags ? 'Hide tags' : 'Show tags'}
+          </Button>
+          {showTags && (
+            <Tags style={{ padding: 6 }}>
+              {tags.map(tag => (
+                <Tag
+                  key={tag}
+                  className="is-info"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => handleTagClick(tag)}
+                >
+                  {tag}
+                </Tag>
+              ))}
+            </Tags>
+          )}
+        </Modal.Card.Foot>
       </Modal.Card>
     </Modal>
   )

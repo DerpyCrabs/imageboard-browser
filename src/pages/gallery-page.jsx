@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Thumb from '../components/thumb'
 import { Section, Columns } from 'bulma-styled-components'
+import { getSource } from '../sources/util'
 
 const GalleryPage = React.memo(({ source, query, page }) => {
   const [thumbs, setThumbs] = useState([])
   const [isMounted, setIsMounted] = useState(true)
+  const sourceModule = getSource(source)
   useEffect(() => {
     const fetchThumbs = async () => {
-      const pageContents = await source.parsePage(query, page)
+      const pageContents = await sourceModule.parsePage(query, page)
       if (isMounted) {
-        setThumbs(source.getThumbs(pageContents))
+        setThumbs(sourceModule.getThumbs(pageContents))
       }
     }
     fetchThumbs()

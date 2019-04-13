@@ -36,6 +36,7 @@ const Thumb = ({ source, thumb }) => {
       {showImageDetails && (
         <ImageDetails
           post={thumb.postUrl}
+          tags={thumb.tags.split(' ').filter(tag => tag !== '')}
           onClose={handleClose}
           source={source}
           show={true}

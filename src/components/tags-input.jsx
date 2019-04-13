@@ -34,7 +34,7 @@ const TagsInput = ({ tags, setTags, onEnter }) => {
   return (
     <Field className="is-grouped input">
       {completeTags.map((tag, index) => (
-        <Control>
+        <Control key={tag}>
           <Tags className="has-addons">
             <Tag className="has-background-grey-lighter">{tag}</Tag>
             <Tag
