@@ -1,39 +1,34 @@
 import React from 'react'
-import { navigate } from 'hookrouter'
-import { Pagination } from 'bulma-styled-components'
+import { A } from 'hookrouter'
 
-const PaginationExp = React.memo(({ current, total }) => {
-  const linkOnClick = e => {
-    e.preventDefault()
-    navigate(e.currentTarget.href)
-  }
+const Pagination = React.memo(({ current, total }) => {
   const PageLink = ({ to, children }) => (
-    <Pagination.Link href={to.toString()} onClick={linkOnClick}>
+    <A href={to.toString()} className="pagination-link">
       {children}
-    </Pagination.Link>
+    </A>
   )
   return (
-    <Pagination className="is-centered">
-      <Pagination.Previous
+    <div className="pagination is-centered">
+      <A
+        className="pagination-previous"
         disabled={current === 1}
         href={(current - 1).toString()}
-        onClick={linkOnClick}
       >
         Previous page
-      </Pagination.Previous>
-      <Pagination.Next
+      </A>
+      <A
+        className="pagination-next"
         disabled={current === total}
         href={(current + 1).toString()}
-        onClick={linkOnClick}
       >
         Next page
-      </Pagination.Next>
-      <Pagination.List>
+      </A>
+      <ul className="pagination-list">
         <li>
           <PageLink to={1}>First</PageLink>
         </li>
         <li>
-          <Pagination.Ellipsis>&hellip;</Pagination.Ellipsis>
+          <span className="pagination-ellipsis">&hellip;</span>
         </li>
         <li>
           <PageLink to={current}>
@@ -41,14 +36,14 @@ const PaginationExp = React.memo(({ current, total }) => {
           </PageLink>
         </li>
         <li>
-          <Pagination.Ellipsis>&hellip;</Pagination.Ellipsis>
+          <span className="pagination-ellipsis">&hellip;</span>
         </li>
         <li>
           <PageLink to={total}>Last</PageLink>
         </li>
-      </Pagination.List>
-    </Pagination>
+      </ul>
+    </div>
   )
 })
 
-export default PaginationExp
+export default Pagination

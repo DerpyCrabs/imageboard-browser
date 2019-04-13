@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { navigate } from 'hookrouter'
 import { getSource } from '../sources/util'
-import {
-  Modal,
-  Level,
-  Heading,
-  Button,
-  Tags,
-  Tag
-} from 'bulma-styled-components'
 
 const ImageDetails = ({ source, show, post, onClose, tags }) => {
   const [imageUrl, setImageUrl] = useState('')
@@ -25,9 +17,10 @@ const ImageDetails = ({ source, show, post, onClose, tags }) => {
     fetchThumbs()
   }, [post])
   return (
-    <Modal className={show ? 'is-active' : ''}>
-      <Modal.Background onClick={onClose} />
-      <Modal.Card
+    <div className={'modal ' + (show ? 'is-active' : '')}>
+      <div className="modal-background" onClick={onClose} />
+      <div
+        className="modal-card"
         style={{
           width: 'auto',
           display: 'inline-flex',
@@ -37,19 +30,27 @@ const ImageDetails = ({ source, show, post, onClose, tags }) => {
           height: '100%'
         }}
       >
-        <Modal.Card.Head showClose={false} style={{ padding: '6px' }}>
-          <Level style={{ flexGrow: 1 }}>
-            <Level.Item className="has-text-centered" style={{ flexGrow: 1 }}>
+        <div
+          className="modal-card-head"
+          showClose={false}
+          style={{ padding: '6px' }}
+        >
+          <div class="level" style={{ flexGrow: 1 }}>
+            <div
+              className="level-item has-text-centered"
+              style={{ flexGrow: 1 }}
+            >
               <div>
                 <a href={post} target="_blank" rel="noopener noreferrer">
                   {post}
                 </a>
-                <Heading>from rule34.paheal.net</Heading>
+                <div className="heading">from rule34.paheal.net</div>
               </div>
-            </Level.Item>
-          </Level>
-        </Modal.Card.Head>
-        <Modal.Card.Body
+            </div>
+          </div>
+        </div>
+        <div
+          className="modal-card-body"
           style={{
             display: 'inline-flex',
             justifyContent: 'center',
@@ -76,31 +77,34 @@ const ImageDetails = ({ source, show, post, onClose, tags }) => {
               }}
             />
           </div>
-        </Modal.Card.Body>
-        <Modal.Card.Foot style={{ padding: 0, flexDirection: 'column' }}>
-          <Button
-            className="is-fullwidth is-small"
+        </div>
+        <div
+          className="modal-card-foot"
+          style={{ padding: 0, flexDirection: 'column' }}
+        >
+          <button
+            className="button is-fullwidth is-small"
             onClick={() => setShowTags(!showTags)}
           >
             {showTags ? 'Hide tags' : 'Show tags'}
-          </Button>
+          </button>
           {showTags && (
-            <Tags style={{ padding: 6 }}>
+            <div className="tags" style={{ padding: 6 }}>
               {tags.map(tag => (
-                <Tag
+                <div
                   key={tag}
-                  className="is-info"
+                  className="tag is-info"
                   style={{ cursor: 'pointer' }}
                   onClick={() => handleTagClick(tag)}
                 >
                   {tag}
-                </Tag>
+                </div>
               ))}
-            </Tags>
+            </div>
           )}
-        </Modal.Card.Foot>
-      </Modal.Card>
-    </Modal>
+        </div>
+      </div>
+    </div>
   )
 }
 

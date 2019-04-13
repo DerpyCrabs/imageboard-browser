@@ -1,5 +1,4 @@
 import React from 'react'
-import { Tags, Tag, Control, Field, Input } from 'bulma-styled-components'
 
 const TagsInput = ({ tags, setTags, onEnter }) => {
   const tagRegExp = /((?:\S+ *?)*)*?( ?\S*)$/gu
@@ -32,19 +31,20 @@ const TagsInput = ({ tags, setTags, onEnter }) => {
   }
 
   return (
-    <Field className="is-grouped input">
+    <div className="field is-grouped input">
       {completeTags.map((tag, index) => (
-        <Control key={tag}>
-          <Tags className="has-addons">
-            <Tag className="has-background-grey-lighter">{tag}</Tag>
-            <Tag
-              className="is-delete has-background-grey-lighter"
+        <div className="control" key={tag}>
+          <div className="tags has-addons">
+            <div className="tag has-background-grey-lighter">{tag}</div>
+            <div
+              className="tag is-delete has-background-grey-lighter"
               onClick={() => handleRemoveTag(tag)}
             />
-          </Tags>
-        </Control>
+          </div>
+        </div>
       ))}
-      <Input
+      <input
+        className="input"
         type="text"
         value={incompleteTag}
         style={{ border: 0, backgroundColor: 'transparent', boxShadow: 'none' }}
@@ -52,7 +52,7 @@ const TagsInput = ({ tags, setTags, onEnter }) => {
         onKeyDown={handleKeyDown}
         onCopy={handleCopy}
       />
-    </Field>
+    </div>
   )
 }
 

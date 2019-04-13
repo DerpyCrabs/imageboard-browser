@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import ImageDetails from './image-details'
-import { Tile, Box } from 'bulma-styled-components'
 
 const Img = ({ src, ...props }) => {
   return (
-    <Box
+    <div
+      className="box"
       style={{
         backgroundImage: 'url(' + src + ')',
         height: 200,
@@ -27,12 +27,12 @@ const Thumb = ({ source, thumb }) => {
   }
   return (
     <>
-      <Tile
-        className="is-parent is-2"
+      <div
+        className="tile is-parent is-2"
         onClick={() => setShowImageDetails(true)}
       >
         <Img src={thumb.thumbUrl} />
-      </Tile>
+      </div>
       {showImageDetails && (
         <ImageDetails
           post={thumb.postUrl}

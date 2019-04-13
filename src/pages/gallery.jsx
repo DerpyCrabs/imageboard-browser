@@ -4,13 +4,6 @@ import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { useRoutes, navigate } from 'hookrouter'
 import useHotkeys from '../use-hotkeys'
-import {
-  Field,
-  Control,
-  Section,
-  Select,
-  Button
-} from 'bulma-styled-components'
 import TagsInput from '../components/tags-input'
 
 const usePage = () => {
@@ -79,17 +72,17 @@ const Gallery = ({ source, query }) => {
         : `/${source}/`
     )
   return (
-    <Section>
-      <Field className="field has-addons">
-        <Control className="control is-expanded">
+    <div className="section">
+      <div className="field has-addons">
+        <div className="control is-expanded">
           <TagsInput
             tags={search}
             setTags={e => setSearch(e)}
             onEnter={e => handleSearch(source)}
           />
-        </Control>
-        <Control>
-          <Select>
+        </div>
+        <div className="control">
+          <div className="select">
             <select value={source} onChange={e => handleSearch(e.target.value)}>
               <option value="safebooru">Safebooru</option>
               <option value="konachan">Konachan</option>
@@ -97,14 +90,17 @@ const Gallery = ({ source, query }) => {
               <option value="paheal">Paheal</option>
               <option value="rule34">Rule34</option>
             </select>
-          </Select>
-        </Control>
-        <Control>
-          <Button className="is-info" onClick={() => handleSearch(source)}>
+          </div>
+        </div>
+        <div className="control">
+          <button
+            className="button is-info"
+            onClick={() => handleSearch(source)}
+          >
             Find
-          </Button>
-        </Control>
-      </Field>
+          </button>
+        </div>
+      </div>
       <div>
         {pageCount ? (
           <>
@@ -119,7 +115,7 @@ const Gallery = ({ source, query }) => {
           <div>Loading...</div>
         )}
       </div>
-    </Section>
+    </div>
   )
 }
 
