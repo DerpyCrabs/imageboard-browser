@@ -35,7 +35,7 @@ const ImageDetails = ({ source, show, post, onClose, tags }) => {
           showClose={false}
           style={{ padding: '6px' }}
         >
-          <div class="level" style={{ flexGrow: 1 }}>
+          <div className="level" style={{ flexGrow: 1 }}>
             <div
               className="level-item has-text-centered"
               style={{ flexGrow: 1 }}
