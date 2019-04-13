@@ -34,7 +34,7 @@ export const parsePage = async (query, page) => {
   if (query !== '') {
     url = `http://konachan.net/post?tags=${query}`
   } else {
-    url = `http://safebooru.org/post?tags=`
+    url = `http://konachan.net/post?tags=`
   }
   if (page) {
     url = `${url}&page=${page.toString()}`

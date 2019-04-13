@@ -74,7 +74,7 @@ const Gallery = ({ source, query }) => {
 
   const handleSearch = source =>
     navigate(
-      search !== ''
+      search !== '' && search !== ' '
         ? `/${source}/${encodeURIComponent(search.trim())}/`
         : `/${source}/`
     )
