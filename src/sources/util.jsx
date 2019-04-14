@@ -10,7 +10,6 @@ const zip = (a, b) => {
 export const getSource = source => {
   if (source.includes('-')) {
     const sources = source.split('-')
-    console.log(sources)
     const parsePage = async (query, page) => {
       let pages = []
       for (source of sources) {
