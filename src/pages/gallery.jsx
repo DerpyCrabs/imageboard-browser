@@ -5,6 +5,7 @@ import GalleryPage from './gallery-page'
 import { useRoutes, navigate } from 'hookrouter'
 import useHotkeys from '../use-hotkeys'
 import TagsInput from '../components/tags-input'
+import SourcesSelect from '../components/sources-select'
 
 const usePage = () => {
   const parsePage = pathname => {
@@ -83,13 +84,13 @@ const Gallery = ({ source, query }) => {
         </div>
         <div className="control">
           <div className="select">
-            <select value={source} onChange={e => handleSearch(e.target.value)}>
+            <SourcesSelect value={source} onChange={e => handleSearch(e)}>
               <option value="safebooru">Safebooru</option>
               <option value="konachan">Konachan</option>
               <option value="yandere">Yandere</option>
               <option value="paheal">Paheal</option>
               <option value="rule34">Rule34</option>
-            </select>
+            </SourcesSelect>
           </div>
         </div>
         <div className="control">
