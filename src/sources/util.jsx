@@ -4,6 +4,12 @@ import Rule34 from './rule34'
 import Yandere from './yandere'
 import Konachan from './konachan'
 
+export const elementToObject = element =>
+  Array.from(element.attributes).reduce((obj, attr) => {
+    obj[attr.name] = attr.value
+    return obj
+  }, {})
+
 const zip = (a, b) => {
   return a.map((e, i) => [e, b[i]])
 }

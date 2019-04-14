@@ -2,44 +2,35 @@ import React, { useState, useEffect } from 'react'
 import { getSource } from '../sources/util'
 import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
-import { useRoutes, navigate } from 'hookrouter'
+import { navigate } from 'hookrouter'
 import useHotkeys from '../use-hotkeys'
 import TagsInput from '../components/tags-input'
 import SourcesSelect from '../components/sources-select'
 
-const usePage = () => {
-  const parsePage = pathname => {
-    const maybePage = pathname.split('/').pop()
-    if (!maybePage || isNaN(maybePage)) {
-      return 1
-    } else {
-      return parseInt(maybePage, 10)
+const Gallery = ({ source, query, page: pageString }) => {
+  const page = parseInt(pageString, 10)
+
+  const [search, setSearch] = useState(decodeURIComponent(query) + ' ')
+  useEffect(() => setSearch(decodeURIComponent(query) + ' '), [query])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [page, query, source])
+
+  const [posts, setPosts] = useState(null)
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const posts = await getSource(source).getPosts(query, page)
+      setPosts(posts)
     }
-  }
-
-  const [page, setPage] = useState(parsePage(window.location.pathname))
-  useEffect(() => setPage(parsePage(window.location.pathname)), [
-    window.location.pathname
-  ])
-  return page
-}
-
-const routes = {
-  ':page/': ({ page }) => (source, query) => (
-    <GalleryPage source={source} query={query} page={page} />
-  ),
-  ':page': ({ page }) => (source, query) => (
-    <GalleryPage source={source} query={query} page={page} />
-  )
-}
-
-const Gallery = ({ source, query }) => {
-  const sourceModule = getSource(source)
-  const [pageCount, setPageCount] = useState(null)
-  const page = usePage()
+    fetchPosts()
+    if (posts) {
+      setPosts({ pageCount: posts.pageCount, posts: [] })
+    }
+  }, [query, page])
 
   const nextPage = event => {
-    const next = page !== pageCount ? page + 1 : page
+    const next = page !== posts.pageCount ? page + 1 : page
     navigate(next.toString())
   }
   const prevPage = event => {
@@ -50,28 +41,13 @@ const Gallery = ({ source, query }) => {
   useHotkeys('ArrowRight', nextPage)
   useHotkeys('ArrowLeft', prevPage)
 
-  const match = useRoutes(routes)
-  const [isMounted, setIsMounted] = useState(true)
-
-  useEffect(() => {
-    const fetchPageCount = async () => {
-      const pageContents = await sourceModule.parsePage(query)
-      if (isMounted) {
-        setPageCount(sourceModule.getPageCount(pageContents))
-      }
-    }
-    fetchPageCount()
-    return () => setIsMounted(false)
-  }, [query])
-
-  const [search, setSearch] = useState(decodeURIComponent(query) + ' ')
-
   const handleSearch = source =>
     navigate(
       search !== '' && search !== ' '
         ? `/${source}/${encodeURIComponent(search.trim())}/`
         : `/${source}/`
     )
+
   return (
     <div className="section">
       <div className="field has-addons">
@@ -103,14 +79,10 @@ const Gallery = ({ source, query }) => {
         </div>
       </div>
       <div>
-        {pageCount ? (
+        {posts ? (
           <>
-            {match ? (
-              match(source, query) || <div>Page not found</div>
-            ) : (
-              <GalleryPage source={source} query={query} page={'1'} />
-            )}
-            <Pagination current={page} total={pageCount} />
+            <GalleryPage posts={posts.posts} />
+            <Pagination current={page} total={posts.pageCount} />
           </>
         ) : (
           <div>Loading...</div>
