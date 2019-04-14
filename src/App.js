@@ -5,13 +5,18 @@ import useDarkMode from 'use-dark-mode'
 import DarkModeToggle from './components/dark-mode-toggle'
 
 const routes = {
-  '/:source/:query/*': ({ source, query }) => (
-    <Gallery source={source} query={query} />
+  '/:source/:query/': ({ source, query }) => (
+    <Gallery source={source} query={query} page={1} />
   ),
-  '/:source/*': ({ source }) => <Gallery source={source} query="" />,
-  '/:source/': ({ source }) => <Gallery source={source} query="" />,
-  '/*': () => <Gallery source="safebooru" query="" />,
-  '/': () => <Gallery source="safebooru" query="" />
+  '/:source/:query/:page': ({ source, query, page }) => (
+    <Gallery source={source} query={query} page={page} />
+  ),
+  '/:source/:page': ({ source, page }) => (
+    <Gallery source={source} query="" page={page} />
+  ),
+  '/:source/': ({ source }) => <Gallery source={source} query="" page={1} />,
+  '/:page': ({ page }) => <Gallery source="safebooru" query="" page={page} />,
+  '/': () => <Gallery source="safebooru" query="" page={1} />
 }
 const Facelift = () => {
   const match = useRoutes(routes)

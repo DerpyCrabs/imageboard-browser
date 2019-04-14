@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { navigate } from 'hookrouter'
-import { getSource } from '../sources/util'
 
-const ImageDetails = ({ source, show, post, onClose, tags }) => {
-  const [imageUrl, setImageUrl] = useState('')
+const ImageDetails = ({ show, post, onClose, tags }) => {
   const [showTags, setShowTags] = useState(false)
   const handleTagClick = tag => {
-    navigate(`/${source}/${encodeURIComponent(tag)}/`)
+    navigate(`/${post.source}/${encodeURIComponent(tag)}/`)
+    onClose()
   }
 
-  useEffect(() => {
-    const fetchThumbs = async () => {
-      const url = await getSource(source).getImageUrl(post)
-      setImageUrl(url)
-    }
-    fetchThumbs()
-  }, [post])
   return (
     <div className={'modal ' + (show ? 'is-active' : '')}>
       <div className="modal-background" onClick={onClose} />
@@ -42,9 +34,9 @@ const ImageDetails = ({ source, show, post, onClose, tags }) => {
             >
               <div>
                 <a href={post} target="_blank" rel="noopener noreferrer">
-                  {post}
+                  {post.postUrl}
                 </a>
-                <div className="heading">from rule34.paheal.net</div>
+                <div className="heading">from {post.sourceTitle}</div>
               </div>
             </div>
           </div>
@@ -68,7 +60,7 @@ const ImageDetails = ({ source, show, post, onClose, tags }) => {
             }}
           >
             <img
-              src={imageUrl}
+              src={post.imageUrl}
               alt="Fullsize"
               style={{
                 maxWidth: '100%',
