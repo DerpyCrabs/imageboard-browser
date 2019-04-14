@@ -23,6 +23,25 @@ const Source = ({ title, value, isChecked, onClick, onCheck }) => {
     </button>
   )
 }
+
+const getSelectedSources = (sources, value) => {
+  if (value.includes('-')) {
+    const selectedSources = value.split('-')
+    return sources.map(({ value }) => {
+      return {
+        value,
+        selected: selectedSources.includes(value)
+      }
+    })
+  } else {
+    return sources.map(({ value: value2 }) => {
+      return {
+        value: value2,
+        selected: value === value2
+      }
+    })
+  }
+}
 const SourcesSelect = ({ value, onChange, children }) => {
   const [show, setShow] = useState(false)
   let sources = []
@@ -35,15 +54,7 @@ const SourcesSelect = ({ value, onChange, children }) => {
   const current = sources.filter(
     ({ value: sourceValue }) => sourceValue === value
   )
-  const [selected, setSelected] = useState(
-    sources.map(({ value }) => {
-      return {
-        value,
-        selected:
-          current.length !== 0 && current[0].value === value ? true : false
-      }
-    })
-  )
+  const [selected, setSelected] = useState(getSelectedSources(sources, value))
   const handleSelect = value => {
     const selectedSource = selected.find(
       ({ value: value2 }) => value2 === value
