@@ -3,19 +3,59 @@ import Safebooru from './safebooru'
 import Rule34 from './rule34'
 import Yandere from './yandere'
 import Konachan from './konachan'
+
+const zip = (a, b) => {
+  return a.map((e, i) => [e, b[i]])
+}
 export const getSource = source => {
-  if (source === 'paheal') {
-    return Paheal
-  } else if (source === 'safebooru') {
-    return Safebooru
-  } else if (source === 'yandere') {
-    return Yandere
-  } else if (source === 'konachan') {
-    return Konachan
-  } else if (source === 'rule34') {
-    return Rule34
+  if (source.includes('-')) {
+    const sources = source.split('-')
+    console.log(sources)
+    const parsePage = async (query, page) => {
+      let pages = []
+      for (source of sources) {
+        pages.push({
+          source,
+          page: await getSource(source).parsePage(query, page)
+        })
+      }
+      return pages
+    }
+    const getPageCount = pages => {
+      return Math.max(
+        ...pages.map(({ source, page }) => getSource(source).getPageCount(page))
+      )
+    }
+    const getThumbs = pages => {
+      return pages
+        .map(({ source, page }) => getSource(source).getThumbs(page))
+        .flat()
+    }
+    const getImageUrl = postUrl => {
+      return getSource(
+        sources.find(source => postUrl.includes(source))
+      ).getImageUrl(postUrl)
+    }
+    return {
+      parsePage,
+      getPageCount,
+      getThumbs,
+      getImageUrl
+    }
   } else {
-    return undefined
+    if (source === 'paheal') {
+      return Paheal
+    } else if (source === 'safebooru') {
+      return Safebooru
+    } else if (source === 'yandere') {
+      return Yandere
+    } else if (source === 'konachan') {
+      return Konachan
+    } else if (source === 'rule34') {
+      return Rule34
+    } else {
+      return undefined
+    }
   }
 }
 
