@@ -22,7 +22,7 @@ const getPost = post => {
     tags: obj.tags,
     postUrl,
     imageUrl: obj.file_url,
-    source: 'konachan.net',
+    source: 'konachan',
     sourceTitle: 'konachan.net'
   }
 }
