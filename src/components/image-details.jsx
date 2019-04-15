@@ -5,7 +5,7 @@ const ImageDetails = ({ show, post, onClose, tags }) => {
   const [showTags, setShowTags] = useState(false)
   const handleTagClick = tag => {
     navigate(`/${post.source}/${encodeURIComponent(tag)}/`)
-    onClose(q)
+    onClose()
   }
 
   return (
