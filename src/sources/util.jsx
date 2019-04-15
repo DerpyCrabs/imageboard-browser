@@ -48,9 +48,7 @@ export const getSource = source => {
       getImageUrl
     }
   } else {
-    if (source === 'paheal') {
-      return Paheal
-    } else if (source === 'safebooru') {
+    if (source === 'safebooru') {
       return Safebooru
     } else if (source === 'yandere') {
       return Yandere
