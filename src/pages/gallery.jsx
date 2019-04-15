@@ -5,7 +5,6 @@ import GalleryPage from './gallery-page'
 import { navigate } from 'hookrouter'
 import useHotkeys from '../use-hotkeys'
 import TagsInput from '../components/tags-input'
-import SourcesSelect from '../components/sources-select'
 
 const Gallery = ({ source, query, page: pageString }) => {
   const page = parseInt(pageString, 10)
@@ -60,12 +59,12 @@ const Gallery = ({ source, query, page: pageString }) => {
         </div>
         <div className="control">
           <div className="select">
-            <SourcesSelect value={source} onChange={e => handleSearch(e)}>
+            <select value={source} onChange={e => handleSearch(e.target.value)}>
               <option value="safebooru">Safebooru</option>
               <option value="konachan">Konachan</option>
               <option value="yandere">Yandere</option>
               <option value="rule34">Rule34</option>
-            </SourcesSelect>
+            </select>
           </div>
         </div>
         <div className="control">
