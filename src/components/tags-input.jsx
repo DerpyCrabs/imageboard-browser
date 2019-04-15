@@ -10,7 +10,7 @@ const TagsInput = ({ tags, setTags, onEnter }) => {
 
   const handleKeyDown = e => {
     if (e.keyCode === 13) {
-      onEnter()
+      onEnter(tags)
     } else if (e.keyCode === 8 && e.target.value === '') {
       e.preventDefault()
       setTags(tags.slice(0, -1))
@@ -18,7 +18,7 @@ const TagsInput = ({ tags, setTags, onEnter }) => {
   }
 
   const handleRemoveTag = tag => {
-    setTags(
+    onEnter(
       completeTags.filter(completeTag => completeTag !== tag).join(' ') +
         ' ' +
         incompleteTag

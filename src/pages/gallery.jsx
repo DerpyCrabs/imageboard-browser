@@ -40,7 +40,7 @@ const Gallery = ({ source, query, page: pageString }) => {
   useHotkeys('ArrowRight', nextPage)
   useHotkeys('ArrowLeft', prevPage)
 
-  const handleSearch = source =>
+  const handleSearch = (source, search) =>
     navigate(
       search !== '' && search !== ' '
         ? `/${source}/${encodeURIComponent(search.trim())}/`
@@ -54,7 +54,7 @@ const Gallery = ({ source, query, page: pageString }) => {
           <TagsInput
             tags={search}
             setTags={e => setSearch(e)}
-            onEnter={e => handleSearch(source)}
+            onEnter={e => handleSearch(source, e)}
           />
         </div>
         <div className="control">
@@ -70,7 +70,7 @@ const Gallery = ({ source, query, page: pageString }) => {
         <div className="control">
           <button
             className="button is-primary"
-            onClick={() => handleSearch(source)}
+            onClick={() => handleSearch(source, search)}
           >
             Find
           </button>
