@@ -1,4 +1,3 @@
-import Paheal from './paheal'
 import Safebooru from './safebooru'
 import Rule34 from './rule34'
 import Yandere from './yandere'
