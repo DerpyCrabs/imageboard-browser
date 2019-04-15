@@ -12,14 +12,14 @@ const Pagination = React.memo(({ current, total }) => {
       <A
         className="pagination-previous"
         disabled={current === 1}
-        href={(current - 1).toString()}
+        href={current !== 1 ? (current - 1).toString() : ''}
       >
         Previous page
       </A>
       <A
         className="pagination-next"
         disabled={current === total}
-        href={(current + 1).toString()}
+        href={current !== total ? (current + 1).toString() : ''}
       >
         Next page
       </A>
