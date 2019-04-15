@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ImageDetails from './image-details'
 
-const Img = ({ src, ...props }) => {
+const Img = ({ src }) => {
   return (
     <div
       className="box"

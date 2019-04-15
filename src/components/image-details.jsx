@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
-import { navigate } from 'hookrouter'
+import { A } from 'hookrouter'
 
 const ImageDetails = ({ show, post, onClose, tags }) => {
   const [showTags, setShowTags] = useState(false)
-  const handleTagClick = tag => {
-    navigate(`/${post.source}/${encodeURIComponent(tag)}/`)
-    onClose()
-  }
 
   return (
     <div className={'modal ' + (show ? 'is-active' : '')}>
@@ -83,14 +79,14 @@ const ImageDetails = ({ show, post, onClose, tags }) => {
           {showTags && (
             <div className="tags" style={{ padding: 6 }}>
               {tags.map(tag => (
-                <div
+                <A
                   key={tag}
                   className="tag is-primary"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => handleTagClick(tag)}
+                  href={`/${post.source}/${encodeURIComponent(tag)}/`}
+                  onClick={() => onClose()}
                 >
                   {tag}
-                </div>
+                </A>
               ))}
             </div>
           )}
