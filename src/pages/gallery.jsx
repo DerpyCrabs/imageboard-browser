@@ -64,7 +64,6 @@ const Gallery = ({ source, query, page: pageString }) => {
               <option value="safebooru">Safebooru</option>
               <option value="konachan">Konachan</option>
               <option value="yandere">Yandere</option>
-              <option value="paheal">Paheal</option>
               <option value="rule34">Rule34</option>
             </SourcesSelect>
           </div>
