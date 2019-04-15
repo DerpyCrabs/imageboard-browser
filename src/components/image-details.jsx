@@ -22,18 +22,18 @@ const ImageDetails = ({ show, post, onClose, tags }) => {
           height: '100%'
         }}
       >
-        <div
-          className="modal-card-head"
-          showClose={false}
-          style={{ padding: '6px' }}
-        >
+        <div className="modal-card-head" style={{ padding: '6px' }}>
           <div className="level" style={{ flexGrow: 1 }}>
             <div
               className="level-item has-text-centered"
               style={{ flexGrow: 1 }}
             >
               <div>
-                <a href={post} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={post.postUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {post.postUrl}
                 </a>
                 <div className="heading">from {post.sourceTitle}</div>

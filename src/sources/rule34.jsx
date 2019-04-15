@@ -1,60 +1,33 @@
-import { contains } from './util'
+import { elementToObject } from './util'
 
-const parseThumb = thumb => {
-  const thumbUrl = thumb.querySelector('img').src
-  const tags = thumb.querySelector('img').alt
-  const postUrl =
-    'https://rule34.xxx/' + thumb.querySelector('a').getAttribute('href')
-  return { thumbUrl, tags, postUrl }
-}
+const getPageCount = res =>
+  Math.ceil(parseInt(res.querySelector('posts').getAttribute('count'), 10) / 24)
 
-const getImageUrl = async postUrl => {
-  const pageContents = await fetch(postUrl)
-  const domParser = new DOMParser()
-  const page = domParser.parseFromString(await pageContents.text(), 'text/html')
-  const imageUrl = contains(page, 'a', 'Original image')[0].getAttribute('href')
-  const imageContents = await fetch(imageUrl)
-  if (imageContents.redirected) {
-    const imageUrl2 = imageUrl.replace('xxx//', 'xxx/')
-    const imageContents2 = await fetch(imageUrl2)
-    if (imageContents2.redirected) {
-      return page.querySelector('#image').src
-    } else {
-      return imageUrl2
-    }
-  } else {
-    return imageUrl
+export const getPosts = async (query, page) =>
+  fetch(
+    `https://rule34.xxx/index.php?page=dapi&s=post&q=index&pid=${page -
+      1}&limit=24&tags=${query}`
+  )
+    .then(res => res.text())
+    .then(res => new DOMParser().parseFromString(res, 'text/xml'))
+    .then(res => {
+      return {
+        pageCount: getPageCount(res),
+        posts: Array.from(res.getElementsByTagName('post')).map(getPost)
+      }
+    })
+
+const getPost = post => {
+  const obj = elementToObject(post)
+  const postUrl = `https://rule34.xxx/index.php?page=post&s=view&id=${obj.id}`
+  return {
+    thumbUrl: obj.preview_url,
+    tags: obj.tags,
+    postUrl,
+    imageUrl: obj.file_url,
+    source: 'rule34',
+    sourceTitle: 'Rule34'
   }
 }
 
-export const getPageCount = page => {
-  const lastPage = page.querySelector('a[alt="last page"]')
-  if (!lastPage) {
-    return null
-  }
-  const pid = /&pid=(\d+)/g
-  return parseInt(pid.exec(lastPage)[1], 10) / 42 + 1
-}
-
-export const parsePage = async (query, page) => {
-  let url = null
-  if (query !== '') {
-    url = `https://rule34.xxx/index.php?page=post&s=list&tags=${query}`
-  } else {
-    url = `https://rule34.xxx/index.php?page=post&s=list`
-  }
-  if (page) {
-    url = `${url}&pid=${(42 * (page - 1)).toString()}`
-  }
-
-  const pageContents = await fetch(url)
-  const domParser = new DOMParser()
-  return domParser.parseFromString(await pageContents.text(), 'text/html')
-}
-
-export const getThumbs = page => {
-  const thumbs = Array.from(page.querySelectorAll('.thumb'))
-  return thumbs.map(parseThumb)
-}
-
-export default { parsePage, getThumbs, getPageCount, getImageUrl }
+export default { getPosts }
