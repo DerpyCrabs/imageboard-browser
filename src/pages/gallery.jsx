@@ -27,7 +27,7 @@ const Gallery = ({ source, query, page: pageString }) => {
     if (posts) {
       setPosts({ pageCount: posts.pageCount, posts: [] })
     }
-  }, [query, page])
+  }, [source, query, page])
 
   const nextPage = event => {
     const next = page !== posts.pageCount ? page + 1 : page

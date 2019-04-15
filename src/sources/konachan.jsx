@@ -1,53 +1,30 @@
-const parseThumb = thumb => {
-  const thumbUrl = thumb.querySelector('img').src
-  const tags = thumb.querySelector('img').alt
-  const postUrl = 'http://konachan.net/' + thumb.getAttribute('href')
-  return { thumbUrl, tags, postUrl }
-}
+import { elementToObject } from './util'
 
-const getImageUrl = async postUrl => {
-  const pageContents = await fetch(postUrl)
-  const domParser = new DOMParser()
-  const page = domParser.parseFromString(await pageContents.text(), 'text/html')
-  const imageUrl = page.querySelector('.original-file-unchanged')
-  if (imageUrl) {
-    return imageUrl.getAttribute('href').replace('konachan.net', 'konachan.com')
-  } else {
-    return page
-      .querySelector('.original-file-changed')
-      .getAttribute('href')
-      .replace('konachan.net', 'konachan.com')
+const getPageCount = res =>
+  Math.ceil(parseInt(res.querySelector('posts').getAttribute('count'), 10) / 24)
+
+export const getPosts = async (query, page) =>
+  fetch(`http://konachan.net/post.xml?&page=${page}&limit=24&tags=${query}`)
+    .then(res => res.text())
+    .then(res => new DOMParser().parseFromString(res, 'text/xml'))
+    .then(res => {
+      return {
+        pageCount: getPageCount(res),
+        posts: Array.from(res.getElementsByTagName('post')).map(getPost)
+      }
+    })
+
+const getPost = post => {
+  const obj = elementToObject(post)
+  const postUrl = `http://konachan.net/post/show/${obj.id}`
+  return {
+    thumbUrl: obj.preview_url,
+    tags: obj.tags,
+    postUrl,
+    imageUrl: obj.file_url,
+    source: 'konachan.net',
+    sourceTitle: 'konachan.net'
   }
 }
 
-export const getPageCount = page => {
-  const lastPage = page.querySelector('.pagination > :nth-last-child(2)')
-    .textContent
-  if (!lastPage) {
-    return null
-  }
-  return parseInt(lastPage, 10)
-}
-
-export const parsePage = async (query, page) => {
-  let url = null
-  if (query !== '') {
-    url = `http://konachan.net/post?tags=${query}`
-  } else {
-    url = `http://konachan.net/post?tags=`
-  }
-  if (page) {
-    url = `${url}&page=${page.toString()}`
-  }
-
-  const pageContents = await fetch(url)
-  const domParser = new DOMParser()
-  return domParser.parseFromString(await pageContents.text(), 'text/html')
-}
-
-export const getThumbs = page => {
-  const thumbs = Array.from(page.querySelectorAll('.thumb'))
-  return thumbs.map(parseThumb)
-}
-
-export default { parsePage, getThumbs, getPageCount, getImageUrl }
+export default { getPosts }

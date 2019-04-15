@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './sources-select.css'
 
 const Source = ({ title, value, isChecked, onClick, onCheck }) => {
@@ -55,6 +55,10 @@ const SourcesSelect = ({ value, onChange, children }) => {
     ({ value: sourceValue }) => sourceValue === value
   )
   const [selected, setSelected] = useState(getSelectedSources(sources, value))
+  useEffect(() => setSelected(getSelectedSources(sources, value)), [
+    value,
+    sources
+  ])
   const handleSelect = value => {
     const selectedSource = selected.find(
       ({ value: value2 }) => value2 === value
@@ -102,7 +106,10 @@ const SourcesSelect = ({ value, onChange, children }) => {
                       .selected
                   }
                   title={children}
-                  onClick={() => onChange(value)}
+                  onClick={() => {
+                    onChange(value)
+                    setShow(false)
+                  }}
                   onCheck={handleSelect}
                 />
               </li>
