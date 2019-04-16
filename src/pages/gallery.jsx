@@ -4,13 +4,10 @@ import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { navigate } from 'hookrouter'
 import useHotkeys from '../use-hotkeys'
-import TagsInput from '../components/tags-input'
+import SearchBar from '../components/search-bar'
 
 const Gallery = ({ source, query, page: pageString }) => {
   const page = parseInt(pageString, 10)
-
-  const [search, setSearch] = useState(decodeURIComponent(query) + ' ')
-  useEffect(() => setSearch(decodeURIComponent(query) + ' '), [query])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -49,33 +46,11 @@ const Gallery = ({ source, query, page: pageString }) => {
 
   return (
     <div className="section">
-      <div className="field has-addons">
-        <div className="control is-expanded">
-          <TagsInput
-            tags={search}
-            setTags={e => setSearch(e)}
-            onEnter={e => handleSearch(source, e)}
-          />
-        </div>
-        <div className="control">
-          <div className="select">
-            <select value={source} onChange={e => handleSearch(e.target.value)}>
-              <option value="safebooru">Safebooru</option>
-              <option value="konachan">Konachan</option>
-              <option value="yandere">Yandere</option>
-              <option value="rule34">Rule34</option>
-            </select>
-          </div>
-        </div>
-        <div className="control">
-          <button
-            className="button is-primary"
-            onClick={() => handleSearch(source, search)}
-          >
-            Find
-          </button>
-        </div>
-      </div>
+      <SearchBar
+        initialQuery={query}
+        source={source}
+        handleSearch={handleSearch}
+      />
       <div>
         {posts ? (
           <>
