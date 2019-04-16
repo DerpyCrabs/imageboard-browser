@@ -50,15 +50,14 @@ const Gallery = ({ source, query, page: pageString }) => {
         initialQuery={query}
         source={source}
         handleSearch={handleSearch}
+        isLoading={!posts || posts.posts.length === 0}
       />
       <div>
-        {posts ? (
+        {posts && (
           <>
             <GalleryPage posts={posts.posts} />
             <Pagination current={page} total={posts.pageCount} />
           </>
-        ) : (
-          <div>Loading...</div>
         )}
       </div>
     </div>
