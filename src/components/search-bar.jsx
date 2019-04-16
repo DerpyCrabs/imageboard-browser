@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TagsInput from './tags-input'
 
-const SearchBar = ({ initialQuery, source, handleSearch }) => {
+const SearchBar = ({ initialQuery, source, handleSearch, isLoading }) => {
   const [search, setSearch] = useState(decodeURIComponent(initialQuery) + ' ')
   useEffect(() => setSearch(decodeURIComponent(initialQuery) + ' '), [
     initialQuery
@@ -9,7 +9,7 @@ const SearchBar = ({ initialQuery, source, handleSearch }) => {
 
   return (
     <div className="field has-addons">
-      <div className="control is-expanded">
+      <div className={'control is-expanded' + (isLoading ? ' is-loading' : '')}>
         <TagsInput
           tags={search}
           setTags={e => setSearch(e)}
