@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { A } from 'hookrouter'
 
 const ImageDetails = ({ show, post, onClose, tags }) => {
   const [showTags, setShowTags] = useState(false)
+  const [loading, setLoading] = useState(post.needHack ? true : false)
 
   return (
     <div className={'modal ' + (show ? 'is-active' : '')}>
+      {post.needHack && (
+        <iframe
+          style={{ display: 'none' }}
+          onLoad={() => setLoading(false)}
+          src={post.imageUrl}
+        />
+      )}
       <div className="modal-background" onClick={onClose} />
       <div
         className="modal-card"
@@ -55,15 +63,17 @@ const ImageDetails = ({ show, post, onClose, tags }) => {
               height: '100%'
             }}
           >
-            <img
-              src={post.imageUrl}
-              alt="Fullsize"
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain'
-              }}
-            />
+            {!loading && (
+              <img
+                src={post.imageUrl}
+                alt="Fullsize"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain'
+                }}
+              />
+            )}
           </div>
         </div>
         <div

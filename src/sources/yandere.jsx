@@ -23,7 +23,8 @@ const getPost = post => {
     postUrl,
     imageUrl: obj.file_url,
     source: 'yandere',
-    sourceTitle: 'yande.re'
+    sourceTitle: 'yande.re',
+    needHack: true
   }
 }
 
