@@ -16,14 +16,15 @@ export const getPosts = async (query, page) =>
 
 const getPost = post => {
   const obj = elementToObject(post)
-  const postUrl = `http://konachan.net/post/show/${obj.id}`
+  const postUrl = `http://konachan.com/post/show/${obj.id}`
   return {
     thumbUrl: obj.preview_url,
     tags: obj.tags,
     postUrl,
-    imageUrl: obj.file_url,
+    imageUrl: obj.sample_url.replace('konachan.net', 'konachan.com'),
     source: 'konachan',
-    sourceTitle: 'konachan.net'
+    sourceTitle: 'konachan',
+    needHack: true
   }
 }
 
