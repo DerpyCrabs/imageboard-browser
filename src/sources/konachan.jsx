@@ -24,7 +24,7 @@ const getPost = post => {
     imageUrl: obj.sample_url.replace('konachan.net', 'konachan.com'),
     source: 'konachan',
     sourceTitle: 'konachan',
-    needHack: true
+    needsHack: true
   }
 }
 

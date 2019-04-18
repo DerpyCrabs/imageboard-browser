@@ -1,14 +1,72 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { A } from 'hookrouter'
+
+const Image = ({ src }) => {
+  const [imageIndex, setImageIndex] = useState(0)
+  const [error, setError] = useState(false)
+  const handleError = () => {
+    if (typeof src === 'string') {
+      setError(true)
+    } else {
+      if (imageIndex !== src.length - 1) {
+        setImageIndex(imageIndex + 1)
+      } else {
+        setError(true)
+      }
+    }
+  }
+
+  let image = null
+  if (typeof src === 'string') {
+    image = (
+      <img
+        src={src}
+        alt="Fullsize"
+        onError={handleError}
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+          objectFit: 'contain'
+        }}
+      />
+    )
+  } else {
+    image = (
+      <img
+        src={src[imageIndex]}
+        alt="Fullsize"
+        onError={handleError}
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+          objectFit: 'contain'
+        }}
+      />
+    )
+  }
+
+  return (
+    <>
+      {error ? (
+        <div className="notification is-danger">
+          Failed to load image or trying to display video
+        </div>
+      ) : (
+        image
+      )}
+    </>
+  )
+}
 
 const ImageDetails = ({ show, post, onClose, tags }) => {
   const [showTags, setShowTags] = useState(false)
-  const [loading, setLoading] = useState(post.needHack ? true : false)
+  const [loading, setLoading] = useState(post.needsHack ? true : false)
 
   return (
     <div className={'modal ' + (show ? 'is-active' : '')}>
-      {post.needHack && (
+      {post.needsHack && (
         <iframe
+          title={post.imageUrl}
           style={{ display: 'none' }}
           onLoad={() => setLoading(false)}
           src={post.imageUrl}
@@ -63,17 +121,7 @@ const ImageDetails = ({ show, post, onClose, tags }) => {
               height: '100%'
             }}
           >
-            {!loading && (
-              <img
-                src={post.imageUrl}
-                alt="Fullsize"
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  objectFit: 'contain'
-                }}
-              />
-            )}
+            {!loading && <Image src={post.imageUrl} />}
           </div>
         </div>
         <div

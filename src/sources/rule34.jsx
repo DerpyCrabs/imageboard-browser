@@ -24,7 +24,10 @@ const getPost = post => {
     thumbUrl: obj.preview_url,
     tags: obj.tags,
     postUrl,
-    imageUrl: obj.file_url,
+    imageUrl: [
+      `${obj.file_url.replace('rule34.xxx/', 'rule34.xxx//')}?${obj.id}`,
+      `${obj.file_url.replace('rule34.xxx/', 'rule34.xxx//')}`
+    ],
     source: 'rule34',
     sourceTitle: 'Rule34'
   }

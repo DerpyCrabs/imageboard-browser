@@ -21,10 +21,10 @@ const getPost = post => {
     thumbUrl: obj.preview_url,
     tags: obj.tags,
     postUrl,
-    imageUrl: obj.file_url,
+    imageUrl: obj.sample_url,
     source: 'yandere',
     sourceTitle: 'yande.re',
-    needHack: true
+    needsHack: true
   }
 }
 
