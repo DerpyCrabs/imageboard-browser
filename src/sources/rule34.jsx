@@ -5,7 +5,8 @@ const getPageCount = res =>
 
 export const getPosts = async (query, page) =>
   fetch(
-    `https://rule34.xxx/index.php?page=dapi&s=post&q=index&pid=${page -
+    `${process.env.REACT_APP_CORS_PROXY ||
+      ''}https://rule34.xxx/index.php?page=dapi&s=post&q=index&pid=${page -
       1}&limit=24&tags=${query}`
   )
     .then(res => res.text())

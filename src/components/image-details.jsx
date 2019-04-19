@@ -66,10 +66,10 @@ const ImageDetails = ({ show, post, onClose, tags }) => {
     <div className={'modal ' + (show ? 'is-active' : '')}>
       {post.needsHack && (
         <iframe
-          title={post.imageUrl}
+          title={post.iframeUrl}
           style={{ display: 'none' }}
           onLoad={() => setLoading(false)}
-          src={post.imageUrl}
+          src={post.iframeUrl}
         />
       )}
       <div className="modal-background" onClick={onClose} />
