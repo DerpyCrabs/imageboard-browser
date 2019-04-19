@@ -22,10 +22,10 @@ const getPost = post => {
   const obj = elementToObject(post)
   const postUrl = `http://safebooru.org/index.php?page=post&s=view&id=${obj.id}`
   return {
-    thumbUrl: obj.preview_url,
+    thumbUrl: 'http:' + obj.preview_url,
     tags: obj.tags,
     postUrl,
-    imageUrl: obj.file_url,
+    imageUrl: 'http:' + obj.file_url,
     source: 'safebooru',
     sourceTitle: 'safebooru.org'
   }
