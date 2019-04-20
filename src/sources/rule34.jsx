@@ -27,7 +27,9 @@ const getPost = post => {
     postUrl,
     imageUrl: [
       `${obj.file_url.replace('rule34.xxx/', 'rule34.xxx//')}?${obj.id}`,
-      `${obj.file_url.replace('rule34.xxx/', 'rule34.xxx//')}`
+      `${obj.file_url}?${obj.id}`,
+      `${obj.file_url.replace('rule34.xxx/', 'rule34.xxx//')}`,
+      `${obj.file_url}`
     ],
     source: 'rule34',
     sourceTitle: 'Rule34'
