@@ -22,7 +22,7 @@ const getPost = post => {
   const obj = elementToObject(post)
   const postUrl = `https://rule34.xxx/index.php?page=post&s=view&id=${obj.id}`
   return {
-    thumbUrl: obj.preview_url,
+    thumbUrl: obj.preview_url.replace('us.rule34.xxx', 'rule34.xxx'),
     tags: obj.tags,
     postUrl,
     imageUrl: [
