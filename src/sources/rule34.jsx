@@ -21,15 +21,16 @@ export const getPosts = async (query, page) =>
 const getPost = post => {
   const obj = elementToObject(post)
   const postUrl = `https://rule34.xxx/index.php?page=post&s=view&id=${obj.id}`
+  const fileUrl = obj.file_url.replace('us.rule34.xxx', 'img.rule34.xxx')
   return {
     thumbUrl: obj.preview_url.replace('us.rule34.xxx', 'rule34.xxx'),
     tags: obj.tags,
     postUrl,
     imageUrl: [
-      `${obj.file_url.replace('rule34.xxx/', 'rule34.xxx//')}?${obj.id}`,
-      `${obj.file_url}?${obj.id}`,
-      `${obj.file_url.replace('rule34.xxx/', 'rule34.xxx//')}`,
-      `${obj.file_url}`
+      `${fileUrl.replace('rule34.xxx/', 'rule34.xxx//')}?${obj.id}`,
+      `${fileUrl}?${obj.id}`,
+      `${fileUrl.replace('rule34.xxx/', 'rule34.xxx//')}`,
+      `${fileUrl}`
     ],
     source: 'rule34',
     sourceTitle: 'Rule34'
