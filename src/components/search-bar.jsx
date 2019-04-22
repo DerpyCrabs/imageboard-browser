@@ -8,7 +8,7 @@ const SearchBar = ({ initialQuery, source, handleSearch, isLoading }) => {
   ])
 
   return (
-    <div className="field has-addons">
+    <div className="field has-addons" style={{flexWrap:'nowrap', flexBasis: '100%', width: '100%'}}>
       <div className={'control is-expanded' + (isLoading ? ' is-loading' : '')}>
         <TagsInput
           tags={search}
