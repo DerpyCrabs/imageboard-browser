@@ -3,10 +3,8 @@ import { navigate } from 'hookrouter'
 import TagsInput from './tags-input'
 
 const SearchBar = ({ initialQuery, source, isLoading }) => {
-  const [search, setSearch] = useState(decodeURIComponent(initialQuery) + ' ')
-  useEffect(() => setSearch(decodeURIComponent(initialQuery) + ' '), [
-    initialQuery
-  ])
+  const [search, setSearch] = useState(initialQuery + ' ')
+  useEffect(() => setSearch(initialQuery + ' '), [initialQuery])
 
   const handleSearch = (source, search) =>
     navigate(

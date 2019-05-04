@@ -36,7 +36,7 @@ const Gallery = ({ source, query, page: pageString }) => {
 
   useHotkeys('ArrowRight', nextPage)
   useHotkeys('ArrowLeft', prevPage)
-  useTitle(`"${decodeURIComponent(query)}" from ${source} - Imageboard Browser`)
+  useTitle(`"${query}" from ${source} - Imageboard Browser`)
 
   return (
     <div className="section">

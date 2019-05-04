@@ -6,10 +6,10 @@ import DarkModeToggle from './components/dark-mode-toggle'
 
 const routes = {
   '/:source/:query/': ({ source, query }) => (
-    <Gallery source={source} query={query} page={1} />
+    <Gallery source={source} query={decodeURIComponent(query)} page={1} />
   ),
   '/:source/:query/:page': ({ source, query, page }) => (
-    <Gallery source={source} query={query} page={page} />
+    <Gallery source={source} query={decodeURIComponent(query)} page={page} />
   ),
   '/:source/:page': ({ source, page }) => (
     <Gallery source={source} query="" page={page} />
