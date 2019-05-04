@@ -1,5 +1,19 @@
 import React from 'react'
 
+const Tag = ({ tag, onDelete }) => (
+  <div className="tags has-addons">
+    <div className={'tag' + (tag[0] === '-' ? ' has-background-danger' : '')}>
+      {tag}
+    </div>
+    <div
+      className={
+        'tag is-delete' + (tag[0] === '-' ? ' has-background-danger' : '')
+      }
+      onClick={onDelete}
+    />
+  </div>
+)
+
 const TagsInput = ({ tags, setTags, onEnter }) => {
   const tagRegExp = /((?:\S+ *?)*)*?( ?\S*)$/gu
   const match = tagRegExp.exec(tags)
@@ -32,15 +46,9 @@ const TagsInput = ({ tags, setTags, onEnter }) => {
 
   return (
     <div className="field is-grouped input">
-      {completeTags.map((tag, index) => (
+      {completeTags.map(tag => (
         <div className="control" key={tag}>
-          <div className="tags has-addons">
-            <div className="tag">{tag}</div>
-            <div
-              className="tag is-delete"
-              onClick={() => handleRemoveTag(tag)}
-            />
-          </div>
+          <Tag tag={tag} onDelete={() => handleRemoveTag(tag)} />
         </div>
       ))}
       <input
