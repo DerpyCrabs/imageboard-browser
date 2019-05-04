@@ -37,19 +37,11 @@ const Gallery = ({ source, query, page: pageString }) => {
   useHotkeys('ArrowRight', nextPage)
   useHotkeys('ArrowLeft', prevPage)
 
-  const handleSearch = (source, search) =>
-    navigate(
-      search !== '' && search !== ' '
-        ? `/${source}/${encodeURIComponent(search.trim())}/`
-        : `/${source}/`
-    )
-
   return (
     <div className="section">
       <SearchBar
         initialQuery={query}
         source={source}
-        handleSearch={handleSearch}
         isLoading={!posts || posts.posts.length === 0}
       />
       <div>
