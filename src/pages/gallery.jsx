@@ -3,7 +3,7 @@ import { getSource } from '../sources/util'
 import Pagination from '../components/pagination'
 import GalleryPage from './gallery-page'
 import { navigate } from 'hookrouter'
-import useHotkeys from '../use-hotkeys'
+import { useHotkeys, useTitle } from '../hooks'
 import SearchBar from '../components/search-bar'
 
 const Gallery = ({ source, query, page: pageString }) => {
@@ -36,6 +36,7 @@ const Gallery = ({ source, query, page: pageString }) => {
 
   useHotkeys('ArrowRight', nextPage)
   useHotkeys('ArrowLeft', prevPage)
+  useTitle(`"${decodeURIComponent(query)}" from ${source} - Imageboard Browser`)
 
   return (
     <div className="section">

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const useHotkeys = (key, handler) => {
+export const useHotkeys = (key, handler) => {
   useEffect(() => {
     const callback = event => {
       if (event.key === key) {
@@ -16,4 +16,8 @@ const useHotkeys = (key, handler) => {
   }, [key, handler])
 }
 
-export default useHotkeys
+export const useTitle = title => {
+  useEffect(() => {
+    document.title = title
+  }, [title])
+}
