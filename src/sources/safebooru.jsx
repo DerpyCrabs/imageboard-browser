@@ -20,11 +20,12 @@ export const getPosts = async (query, page) =>
 
 const getPost = post => {
   const obj = elementToObject(post)
-  const postUrl = `https://safebooru.org/index.php?page=post&s=view&id=${obj.id}`
+  const postUrl = `https://safebooru.org/index.php?page=post&s=view&id=${
+    obj.id
+  }`
   return {
-    thumbUrl: `${process.env.REACT_APP_CORS_PROXY || ''}${
-      obj.preview_url
-    }`,
+    thumbUrl: `${process.env.REACT_APP_CORS_PROXY ||
+      ''}${obj.preview_url.replace(/png$/, 'jpg')}?${obj.id}`,
     tags: obj.tags,
     postUrl,
     imageUrl: `${process.env.REACT_APP_CORS_PROXY || ''}${obj.file_url}`,
